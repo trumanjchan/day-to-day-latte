@@ -17,7 +17,6 @@ app.get("/api/images", async (req, res) => {
 			.max_results(50)
 			.execute();
 		
-		console.log(result.total_count + " images found.");
 		res.json(result.resources);
 	} catch (err) {
 		res.status(500).json({ error: err.message });
@@ -26,9 +25,8 @@ app.get("/api/images", async (req, res) => {
 
 app.get("/api/folders", async (req, res) => {
 	try {
-		// Get all folders at the root level
 		const result = await cloudinary.api.sub_folders("/", { recursive: true });
-		// result is an array of folders with paths
+
 		res.json(result.folders);
 	} catch (err) {
 		res.status(500).json({ error: err.message });

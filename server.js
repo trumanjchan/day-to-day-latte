@@ -12,7 +12,7 @@ app.use(express.static('public'));
 app.get("/api/images", async (req, res) => {
 	try {
 		const result = await cloudinary.search
-			.expression("resource_type:image AND public_id:*")
+			.expression("resource_type:image")
 			.sort_by("created_at", "desc")
 			.max_results(50)
 			.execute();

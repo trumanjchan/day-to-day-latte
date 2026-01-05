@@ -18,16 +18,34 @@
                 fetch("/api/images")
                     .then(res => res.json())
                     .then(images => {
-                        //console.log(images);
                         const container = document.getElementById("gallery");
                         container.innerHTML = "";
 
+                        const folders = [];
                         images.forEach(img => {
-                            const image = document.createElement("img");
-                            image.src = img.secure_url;
-                            image.loading = "lazy";
-                            container.appendChild(image);
+                            if (!folders.includes(img.asset_folder)) {
+                                folders.push(img.asset_folder);
+                            }
                         });
+
+                        folders.sort().reverse();
+
+                        folders.forEach(folderName => {
+                            const div = document.createElement("div");
+                            div.innerHTML = `<h2>${folderName}</h2>`;
+                            container.appendChild(div);
+
+                            images
+                                .filter(img => img.asset_folder === folderName)
+                                .forEach(img => {
+                                    const image = document.createElement("img");
+                                    image.src = `https://res.cloudinary.com/dathpxzhg/image/upload/c_fill,w_500,h_600,f_webp,q_auto/${img.public_id}.webp`;
+                                    image.loading = "lazy";
+                                    div.appendChild(image);
+                                });
+                        });
+
+                        console.log(folders);
                     });
             }
             
@@ -38,7 +56,10 @@
                     folder: `${new Date().toISOString().split("T")[0]}`,
                     sources: ['local'],
                     resourceType: "image",
-                    clientAllowedFormats: ["jpg", "jpeg", "png", "webp"]
+                    clientAllowedFormats: ["jpg", "jpeg", "png", "webp"],
+                    transformation: [
+                        { width: 1920, height: 1440, crop: "fill", format: "webp", quality: 100 }
+                    ]
                 }, (error, result) => {
                     if (!error && result && result.event === "close") {
                         fetchImages();

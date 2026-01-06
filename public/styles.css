@@ -1,14 +1,25 @@
 body {
     margin: 0;
+    overflow-x: hidden;
 }
 
-#scrollable {
+.section {
     overflow-x: auto;
-    white-space: nowrap;
-    touch-action: auto;
 
-    img {
-        max-width: 100vw;
-        border-radius: 15px;
+    h2 {
+        text-align: center;
     }
+}
+
+img {
+    max-width: 100vw;
+    border-radius: 15px;
+}
+
+.imgContainer {
+    display: flex;
+    width: fit-content;
+    margin: auto;
+    gap: 10px;
+    padding: 0 10px 10px 10px;
 }

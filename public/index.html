@@ -31,21 +31,27 @@
 
                         folders.forEach(folderName => {
                             const div = document.createElement("div");
+                            div.className = "section";
                             div.innerHTML = `<h2>${folderName}</h2>`;
                             container.appendChild(div);
 
                             images
                                 .filter(img => img.asset_folder === folderName)
                                 .forEach(img => {
-                                    const imgContainer = document.createElement("div");
-                                    imgContainer.id = "scrollable"
-
                                     const image = document.createElement("img");
                                     image.src = `https://res.cloudinary.com/dathpxzhg/image/upload/c_fit,w_500,h_600,f_webp,q_auto/${img.public_id}.webp`;
                                     image.loading = "lazy";
 
-                                    imgContainer.appendChild(image);
-                                    div.appendChild(imgContainer);
+                                    if (document.getElementById(img.asset_folder)) {
+                                        document.getElementById(img.asset_folder).appendChild(image);
+                                    } else {
+                                        const imgContainer = document.createElement("div");
+                                        imgContainer.id = img.asset_folder;
+                                        imgContainer.className = "imgContainer";
+
+                                        imgContainer.appendChild(image);
+                                        div.appendChild(imgContainer);
+                                    }
                                 });
                         });
                     });

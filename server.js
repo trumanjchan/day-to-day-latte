@@ -1,11 +1,9 @@
 import express from "express";
 import cloudinary from './public/cloudinary.js';
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
 
 const app = express();
 const port = 3000;
-const __dirname = dirname(fileURLToPath(import.meta.url));
+
 
 app.use(express.static('public'));
 
@@ -31,10 +29,6 @@ app.get("/api/folders", async (req, res) => {
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
-});
-
-app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "public/index.html"));
 });
 
 app.listen(port, () => {
